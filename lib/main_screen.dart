@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'pages/minibar_page.dart';
+import 'pages/random_page.dart';
+import 'pages/search_page.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -19,7 +23,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     _pages = [
-      // TODO: Add pages
+      MinibarPage(),
+      SearchPage(),
+      RandomPage()
     ];
 
     _currentIndex = 1;

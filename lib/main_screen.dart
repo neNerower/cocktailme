@@ -17,16 +17,11 @@ class _MainScreenState extends State<MainScreen> {
   late List<Widget> _pages;
   late PageController _pageController;
 
-
   @override
   void initState() {
     super.initState();
 
-    _pages = [
-      MinibarPage(),
-      SearchPage(),
-      RandomPage()
-    ];
+    _pages = [MinibarPage(), SearchPage(), RandomPage()];
 
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);
@@ -38,19 +33,20 @@ class _MainScreenState extends State<MainScreen> {
     super.dispose();
   }
 
-
   void _onItemTaped(int index) {
     setState(() {
       _currentIndex = index;
+      _pageController.jumpToPage(_currentIndex);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cocktail Me"),
+        title: const Center(
+          child: Text("Cocktail Me"),
+        ),
       ),
       body: PageView(
         controller: _pageController,
@@ -62,14 +58,17 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             // Minibar
             icon: Icon(Icons.favorite),
+            label: '',
           ),
           BottomNavigationBarItem(
             // Search
             icon: Icon(Icons.search),
+            label: '',
           ),
           BottomNavigationBarItem(
             // Random
             icon: Icon(Icons.autorenew_rounded),
+            label: '',
           ),
         ],
         type: BottomNavigationBarType.fixed,

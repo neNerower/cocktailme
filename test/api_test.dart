@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cocktailme/api/cocktaildb_api.dart';
 
-void main(){
+void main() {
   test("Get random cocktail", () async {
     final api = CocktailDbApi();
     var cocktail = await api.getRandom();
-    
+
     expect(cocktail.idDrink, isNotEmpty);
   });
 
@@ -22,6 +22,9 @@ void main(){
     const name = "Margarita";
 
     var cocktail = await api.searchByName(name);
-    expect(cocktail.any((element) => element.strDrink?.contains(name) ?? false), true);
+    expect(
+      cocktail.any((element) => element.strDrink?.contains(name) ?? false),
+      true,
+    );
   });
 }

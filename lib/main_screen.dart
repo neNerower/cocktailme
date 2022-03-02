@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
-    _pages = [MinibarPage(), SearchPage(), RandomPage()];
+    _pages = [const MinibarPage(), const SearchPage(), const RandomPage()];
 
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);

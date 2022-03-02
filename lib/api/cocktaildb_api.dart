@@ -1,4 +1,3 @@
-
 import 'package:cocktailme/api/api.dart';
 import 'package:cocktailme/models/cocktail.dart';
 import 'package:dio/dio.dart';
@@ -25,6 +24,8 @@ class CocktailDbApi extends CocktailApi {
   @override
   Future<List<Cocktail>> searchByName(String name) async {
     final response = await _dio.get("search.php?s=$name");
-    return response.data["drinks"].map<Cocktail>((d) => Cocktail.fromJson(d)).toList();
+    return response.data["drinks"]
+        .map<Cocktail>((d) => Cocktail.fromJson(d))
+        .toList();
   }
 }

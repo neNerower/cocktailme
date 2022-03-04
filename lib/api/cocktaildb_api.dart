@@ -12,7 +12,7 @@ class CocktailDbApi {
 
   CocktailDbApi._internal();
 
-  late final _dio = Dio(BaseOptions(
+  final _dio = Dio(BaseOptions(
     baseUrl: "https://www.thecocktaildb.com/api/json/v1/1/",
     connectTimeout: 5000,
     receiveTimeout: 3000,
@@ -20,23 +20,23 @@ class CocktailDbApi {
 
   Future<CocktailModel> getCocktailById(int id) async {
     final response = await _dio.get('lookup.php?i=$id');
-    return toCocktailModel(Cocktail.fromJson(response.data["drinks"].first));
+    return _toCocktailModel(Cocktail.fromJson(response.data["drinks"].first));
   }
 
   Future<CocktailModel> getRandom() async {
     final response = await _dio.get("random.php");
-    return toCocktailModel(Cocktail.fromJson(response.data["drinks"].first));
+    return _toCocktailModel(Cocktail.fromJson(response.data["drinks"].first));
   }
 
   Future<List<CocktailModel>> searchByName(String name) async {
     final response = await _dio.get("search.php?s=$name");
     return response.data["drinks"]
         .map<Cocktail>((d) => Cocktail.fromJson(d))
-        .map<CocktailModel>(toCocktailModel)
+        .map<CocktailModel>(_toCocktailModel)
         .toList();
   }
 
-  CocktailModel toCocktailModel(Cocktail cocktail) {
+  CocktailModel _toCocktailModel(Cocktail cocktail) {
     var cocktailModel = CocktailModel(int.parse(cocktail.idDrink!), 
       cocktail.strDrink!, cocktail.strAlcoholic!, 
       cocktail.strGlass!, cocktail.strInstructions!, cocktail.strDrinkThumb ?? cocktail.strImageSource);

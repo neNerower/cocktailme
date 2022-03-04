@@ -1,29 +1,33 @@
-import 'package:cocktailme/api/api.dart';
 import 'package:cocktailme/models/cocktail.dart';
 import 'package:dio/dio.dart';
 
 import '../models/cocktailmodel.dart';
 
-class CocktailDbApi extends CocktailApi {
+class CocktailDbApi {
+  static final CocktailDbApi _singleton = CocktailDbApi._internal();
+
+  factory CocktailDbApi() {
+    return _singleton;
+  }
+
+  CocktailDbApi._internal();
+
   late final _dio = Dio(BaseOptions(
     baseUrl: "https://www.thecocktaildb.com/api/json/v1/1/",
     connectTimeout: 5000,
     receiveTimeout: 3000,
   ));
 
-  @override
   Future<CocktailModel> getCocktailById(int id) async {
     final response = await _dio.get('lookup.php?i=$id');
     return toCocktailModel(Cocktail.fromJson(response.data["drinks"].first));
   }
 
-  @override
   Future<CocktailModel> getRandom() async {
     final response = await _dio.get("random.php");
     return toCocktailModel(Cocktail.fromJson(response.data["drinks"].first));
   }
 
-  @override
   Future<List<CocktailModel>> searchByName(String name) async {
     final response = await _dio.get("search.php?s=$name");
     return response.data["drinks"]

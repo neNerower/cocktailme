@@ -6,7 +6,7 @@ void main() {
     final api = CocktailDbApi();
     var cocktail = await api.getRandom();
 
-    expect(cocktail.idDrink, isNotEmpty);
+    expect(cocktail.id, isNotNaN);
   });
 
   test("Get cocktail by id", () async {
@@ -14,7 +14,7 @@ void main() {
     const id = 11007;
 
     var cocktail = await api.getCocktailById(id);
-    expect(cocktail.idDrink, id.toString());
+    expect(cocktail.id, id);
   });
 
   test("Search by name", () async {
@@ -23,7 +23,7 @@ void main() {
 
     var cocktail = await api.searchByName(name);
     expect(
-      cocktail.any((element) => element.strDrink?.contains(name) ?? false),
+      cocktail.any((element) => element.name.contains(name)),
       true,
     );
   });

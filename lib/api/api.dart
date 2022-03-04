@@ -1,7 +1,7 @@
-import '../models/cocktail.dart';
+import 'package:cocktailme/models/cocktailmodel.dart';
 
 abstract class CocktailApi {
-  Future<List<Cocktail>> searchByName(String name);
-  Future<Cocktail> getCocktailById(int id);
-  Future<Cocktail> getRandom();
+  Future<List<CocktailModel>> searchByName(String name);
+  Future<CocktailModel> getCocktailById(int id);
+  Future<CocktailModel> getRandom();
 }

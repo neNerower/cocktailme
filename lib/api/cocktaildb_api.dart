@@ -1,7 +1,7 @@
 import 'package:cocktailme/models/cocktail.dart';
 import 'package:dio/dio.dart';
 
-import '../models/cocktailmodel.dart';
+import '../models/cocktail_model.dart';
 
 class CocktailDbApi {
   static final CocktailDbApi _singleton = CocktailDbApi._internal();

@@ -1,20 +1,20 @@
 import 'package:cocktailme/models/cocktail_model.dart';
+import 'package:cocktailme/widgets/coctail_info.dart';
 import 'package:cocktailme/widgets/coctail_preview.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
-
+  SearchPage(this.cocktailModels, {Key? key}) : super(key: key);
+  List<CocktailModel> cocktailModels;
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 
 class _SearchPageState extends State<SearchPage> {
-  CocktailModel test = CocktailModel(1, "Cuba", "Yes", "Shot", "Instructions", "https://picsum.photos/400");
-  late List<CocktailPreview> prev = [CocktailPreview(test)];
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -24,7 +24,16 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Stack(
         children: [
-          ListView.builder(itemBuilder: (BuildContext context, int index) { return prev[0];},
+          ListView.builder(
+            itemCount: 10,
+            itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+                child: CocktailPreview(widget.cocktailModels[index]),
+              onTap: (){Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CocktailInfo((widget.cocktailModels[index])),
+              ));},
+            );},
           ),
         ],
       ),

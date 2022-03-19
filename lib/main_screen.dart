@@ -1,3 +1,4 @@
+import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,12 +21,16 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    super.initState();
+    //TEST DATA
+    List<CocktailModel> cocktailModels = [];
+    for(int i = 0; i<10; ++i){
+      cocktailModels.add(CocktailModel(1, "Cuba", "Yes", "Shot", "Instructions", "https://picsum.photos/400", ["vodka, lime, sprite, CUM, ${i.toString()}"]));
+    }
 
-    _pages = [const MinibarPage(), const SearchPage(), const RandomPage()];
-
+    _pages = [MinibarPage(), SearchPage(cocktailModels),  RandomPage(cocktailModels)];
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);
+    super.initState();
   }
 
   @override

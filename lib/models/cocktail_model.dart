@@ -8,6 +8,6 @@ class CocktailModel {
   final String? image;
   List<String> ingredients = [];
 
-  CocktailModel(this.id, this.name, this.alcoholic, this.glassType, this.instructions, this.image, this.ingredients);
+  CocktailModel(this.id, this.name, this.alcoholic, this.glassType, this.instructions, this.image);
 
 }

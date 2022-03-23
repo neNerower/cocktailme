@@ -38,7 +38,9 @@ class CocktailPreview extends StatelessWidget{
 
                 children: [
                   Container(child: Image.network(cocktailModel.image!)),
-                Text(cocktailModel.name, style: Theme.of(context).textTheme.bodyMedium),
+                Container(
+                  width: MediaQuery.of(context).size.width/3,
+                    child: Text(cocktailModel.name, style: Theme.of(context).textTheme.bodyMedium)),
                   IconButton(onPressed: (){}, icon: Icon(Icons.star_border_rounded), iconSize: MediaQuery.of(context).size.height/18, color: Colors.white,)
                 ],
               ),

@@ -21,13 +21,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    //TEST DATA
-    List<CocktailModel> cocktailModels = [];
-    for(int i = 0; i<10; ++i){
-      cocktailModels.add(CocktailModel(1, "Cuba", "Yes", "Shot", "Instructions", "https://picsum.photos/400", ["vodka, lime, sprite, CUM, ${i.toString()}"]));
-    }
 
-    _pages = [MinibarPage(), SearchPage(cocktailModels),  RandomPage(cocktailModels)];
+    _pages = [MinibarPage(), SearchPage(),  RandomPage()];
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);
     super.initState();
@@ -49,6 +44,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       extendBody: true,
       backgroundColor: Colors.black,

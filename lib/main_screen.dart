@@ -1,4 +1,6 @@
+import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'pages/minibar_page.dart';
 import 'pages/random_page.dart';
@@ -19,12 +21,11 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    super.initState();
 
-    _pages = [const MinibarPage(), const SearchPage(), const RandomPage()];
-
+    _pages = [MinibarPage(), SearchPage(),  RandomPage()];
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);
+    super.initState();
   }
 
   @override
@@ -43,17 +44,24 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text("Cocktail Me"),
-        ),
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          SvgPicture.asset("lib/assets/images/HomeScreen.svg", width: MediaQuery.of(context).size.width,),
+          PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: _pages,
+          ),
+        ],
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: _pages,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
+       bottomNavigationBar:
+
+      BottomNavigationBar(
+        backgroundColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
             // Minibar

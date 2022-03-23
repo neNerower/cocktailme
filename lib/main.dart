@@ -14,7 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cocktail Me',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.black,
+        fontFamily: 'Roboto',
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 24.0, fontFamily: 'Roboto', color: Color.fromRGBO(
+              255, 255, 255, 1)),
+        )
+
       ),
       home: const MainScreen(),
     );

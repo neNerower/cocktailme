@@ -7,6 +7,8 @@ import 'package:cocktailme/widgets/glassmorphic_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../transitions/slidetoproute.dart';
+
 class SearchPage extends StatefulWidget {
   SearchPage({Key? key}) : super(key: key);
 
@@ -62,7 +64,6 @@ class _SearchPageState extends State<SearchPage> {
             ],
             title: TextField(
               controller: _controller,
-              style: Theme.of(context).textTheme.bodyMedium,
               decoration: InputDecoration(
                   focusedBorder: UnderlineInputBorder(
                     borderSide:
@@ -84,18 +85,15 @@ class _SearchPageState extends State<SearchPage> {
                 if (snapshot.hasData) {
                   List<CocktailModel> cocktailsByName = snapshot.data;
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
                       itemCount: cocktailsByName.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                             child: CocktailPreview(
                                 cocktailModel: cocktailsByName[index]),
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CocktailInfo(
-                                        cocktailModel: cocktailsByName[index]),
-                                  ));
+                              Navigator.push(context, SlideTopRoute(page: (CocktailInfo(cocktailModel: cocktailsByName[index]))));
+
                             });
                       });
                 } else if (snapshot.data == null &&
@@ -108,7 +106,10 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ));
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return  Center(child: Padding(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/10),
+                    child: CircularProgressIndicator(color: Color.fromRGBO(236, 117, 255, 1),),
+                  ));
                 }
               }),
         ));

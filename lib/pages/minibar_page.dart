@@ -1,6 +1,7 @@
 import 'package:cocktailme/hive/hive_interface.dart';
 import 'package:flutter/material.dart';
 import '../models/cocktail_model.dart';
+import '../transitions/slidetoproute.dart';
 import '../widgets/coctail_info.dart';
 import '../widgets/coctail_preview.dart';
 
@@ -23,10 +24,11 @@ class _MinibarPageState extends State<MinibarPage> {
             backgroundColor: Colors.black,
             title: Center(
               child: Text(
-                "Favourites", style: Theme.of(context).textTheme.bodyMedium,
+                "Favourites",
               ),
             )),
         body: ListView.builder(
+          physics: BouncingScrollPhysics(),
             itemCount: favourites.length,
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -40,11 +42,7 @@ class _MinibarPageState extends State<MinibarPage> {
                     color: Colors.white,
                   ),),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CocktailInfo(cocktailModel: favourites[index],),
-                        ));
+                    Navigator.push(context, SlideTopRoute(page: (CocktailInfo(cocktailModel:favourites[index]))));
                   });
             }));
   }

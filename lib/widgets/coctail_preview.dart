@@ -32,7 +32,7 @@ class CocktailPreview extends StatelessWidget {
                   child: SizedBox(
                   width: MediaQuery.of(context).size.width/3,
                       child: Text(cocktailModel.name,
-                          style: Theme.of(context).textTheme.bodyMedium)),
+                          )),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16),

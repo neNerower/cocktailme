@@ -7,6 +7,7 @@ import 'package:cocktailme/widgets/heart_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../models/cocktail_model.dart';
+import '../transitions/slidetoproute.dart';
 
 class RandomPage extends StatefulWidget {
   RandomPage({Key? key}) : super(key: key);
@@ -25,23 +26,22 @@ class _RandomPageState extends State<RandomPage> {
           CocktailModel randomCocktail = snapshot.data;
           return Scaffold(
             extendBody: true,
+            extendBodyBehindAppBar: true,
             backgroundColor: Colors.black,
             appBar: AppBar(
-              toolbarHeight: MediaQuery.of(context).size.height/10,
+              toolbarHeight: MediaQuery.of(context).size.height / 10,
               backgroundColor: Colors.black,
               shadowColor: Colors.transparent,
               title: Center(
                   child: Text(randomCocktail.name,
-                      style: Theme.of(context).textTheme.bodyMedium)),
+                      )),
               leading: IconButton(
                 onPressed: () {
                   setState(() {});
                 },
                 icon: const Icon(Icons.refresh),
               ),
-              actions: [
-                StarButton(cocktailModel: randomCocktail)
-              ],
+              actions: [StarButton(cocktailModel: randomCocktail)],
             ),
             body: Stack(children: [
               SvgPicture.asset(
@@ -50,62 +50,53 @@ class _RandomPageState extends State<RandomPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: SingleChildScrollView(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.vertical,
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        //Cocktail Image
-                        GlassmorphicContainer(
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
+                  children: [
+                    Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          //Cocktail Image
+                          GlassmorphicContainer(
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              child: Image.network(randomCocktail.image!),
                             ),
-                            child: Image.network(randomCocktail.image!),
                           ),
-                        ),
-                        //Spacer
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 24,
-                        ),
-                        //Cocktail ingredients
-                        GlassmorphicContainer(
-                          child: Text(
-                            "Ingredients:\n\n${buildStringFromList(randomCocktail.ingredients)}",
-                            style: Theme.of(context).textTheme.bodyMedium,
+                          //Spacer
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 24,
                           ),
-                        ),
-                        //Spacer
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 24,
-                        ),
-                        //Cocktail description
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CocktailInfo(cocktailModel: randomCocktail)),
-                              );
-                            },
-                            child: GlassmorphicContainer(
-                              child: Center(
-                                  child: Text(
-                                "ABOUT",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              )),
-                            )),
-                      ],
-                    ),
-                  ),
+                          //Cocktail ingredients
+                          GlassmorphicContainer(
+                            child: Text(
+                              "Ingredients:\n\n${buildStringFromList(randomCocktail.ingredients)}",
+                            ),
+                          ),
+                          //Spacer
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 24,
+                          ),
+                          //Cocktail description
+                          GlassmorphicContainer(
+                            child: Text(
+                              "Instructions:\n\n${randomCocktail.instructions}",
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               )
             ]),
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(color: Color.fromRGBO(236, 117, 255, 1),));
         }
       },
     );

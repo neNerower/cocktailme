@@ -39,7 +39,7 @@ class _MainScreenState extends State<MainScreen> {
   void _onItemTaped(int index) {
     setState(() {
       _currentIndex = index;
-      _pageController.jumpToPage(_currentIndex);
+      _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
     });
   }
 

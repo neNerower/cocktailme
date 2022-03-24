@@ -27,7 +27,7 @@ class _StarButtonState extends State<StarButton> {
         },
         icon: icon,
         iconSize: widget.size ?? 24.0,
-        color: Colors.white,
+        color: Color.fromRGBO(236, 117, 255, 1),
       );
     } else {
       icon = const Icon(Icons.favorite_border);
@@ -38,7 +38,7 @@ class _StarButtonState extends State<StarButton> {
         },
         icon: icon,
         iconSize: widget.size ?? 24.0,
-        color: Colors.white,
+        color: Color.fromRGBO(236, 117, 255, 1),
       );
     }
   }

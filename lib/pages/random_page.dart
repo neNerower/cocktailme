@@ -1,11 +1,11 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:cocktailme/api/cocktaildb_api.dart';
+import 'package:cocktailme/hive/hive_interface.dart';
+import 'package:cocktailme/stringbuilder/stringbuilder.dart';
 import 'package:cocktailme/widgets/coctail_info.dart';
+import 'package:cocktailme/widgets/glassmorphic_widget.dart';
+import 'package:cocktailme/widgets/star_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../models/cocktail_model.dart';
 
 class RandomPage extends StatefulWidget {
@@ -22,37 +22,25 @@ class _RandomPageState extends State<RandomPage> {
       future: CocktailDbApi().getRandom(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
-          String ingredients = "";
           CocktailModel randomCocktail = snapshot.data;
-
-          //Make ingredients string when activity started
-          for(String i in randomCocktail.ingredients){
-            if(i == randomCocktail.ingredients.last){
-              ingredients+=i+=".";
-            }
-            else{
-              ingredients+=i+=", ";
-            }
-          }
           return Scaffold(
+            extendBody: true,
             backgroundColor: Colors.black,
             appBar: AppBar(
+              toolbarHeight: MediaQuery.of(context).size.height/10,
               backgroundColor: Colors.black,
               shadowColor: Colors.transparent,
               title: Center(
                   child: Text(randomCocktail.name,
                       style: Theme.of(context).textTheme.bodyMedium)),
               leading: IconButton(
-                onPressed: () {setState(() {});},
-                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  setState(() {});
+                },
+                icon: const Icon(Icons.refresh),
               ),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.star_border_rounded),
-                ),
+                StarButton(cocktailModel: randomCocktail)
               ],
             ),
             body: Stack(children: [
@@ -61,7 +49,7 @@ class _RandomPageState extends State<RandomPage> {
                 width: MediaQuery.of(context).size.width,
               ),
               Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Center(
@@ -69,36 +57,12 @@ class _RandomPageState extends State<RandomPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         //Cocktail Image
-                        ClipRRect(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.white.withOpacity(0.4),
-                                    Colors.white.withOpacity(0.2),
-                                  ],
-                                  begin: AlignmentDirectional.topStart,
-                                  end: AlignmentDirectional.bottomEnd,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                  width: 1.5,
-                                  color: Colors.white.withOpacity(0.2),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  child: Image.network(randomCocktail.image!),
-                                ),
-                              ),
+                        GlassmorphicContainer(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
                             ),
+                            child: Image.network(randomCocktail.image!),
                           ),
                         ),
                         //Spacer
@@ -106,35 +70,10 @@ class _RandomPageState extends State<RandomPage> {
                           height: MediaQuery.of(context).size.height / 24,
                         ),
                         //Cocktail ingredients
-                        ClipRRect(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.white.withOpacity(0.4),
-                                    Colors.white.withOpacity(0.2),
-                                  ],
-                                  begin: AlignmentDirectional.topStart,
-                                  end: AlignmentDirectional.bottomEnd,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(
-                                  width: 1.5,
-                                  color: Colors.white.withOpacity(0.2),
-                                ),
-                              ),
-                              child: ClipRRect(
-                                  child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Ingredients:\n\n$ingredients",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              )),
-                            ),
+                        GlassmorphicContainer(
+                          child: Text(
+                            "Ingredients:\n\n${buildStringFromList(randomCocktail.ingredients)}",
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                         //Spacer
@@ -143,48 +82,21 @@ class _RandomPageState extends State<RandomPage> {
                         ),
                         //Cocktail description
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CocktailInfo(
-                                      randomCocktail)),
-                            );
-                          },
-                          child: ClipRRect(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.white.withOpacity(0.4),
-                                      Colors.white.withOpacity(0.2),
-                                    ],
-                                    begin: AlignmentDirectional.topStart,
-                                    end: AlignmentDirectional.bottomEnd,
-                                  ),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  border: Border.all(
-                                    width: 1.5,
-                                    color: Colors.white.withOpacity(0.2),
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                      child: Text(
-                                    "ABOUT",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  )),
-                                )),
-                              ),
-                            ),
-                          ),
-                        ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CocktailInfo(cocktailModel: randomCocktail)),
+                              );
+                            },
+                            child: GlassmorphicContainer(
+                              child: Center(
+                                  child: Text(
+                                "ABOUT",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              )),
+                            )),
                       ],
                     ),
                   ),

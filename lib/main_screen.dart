@@ -1,6 +1,7 @@
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'pages/minibar_page.dart';
 import 'pages/random_page.dart';
@@ -21,7 +22,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-
     _pages = [MinibarPage(), SearchPage(),  RandomPage()];
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);
@@ -31,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    Hive.close();
     super.dispose();
   }
 
@@ -85,4 +86,5 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
 }

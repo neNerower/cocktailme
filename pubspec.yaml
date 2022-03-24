@@ -50,11 +50,13 @@ dev_dependencies:
   freezed: ^1.1.1
   json_serializable: ^6.1.4
   flutter_native_splash: ^2.0.4
-flutter_native_splash:
-  image: lib/assets/images/SplashScreen.png
-  color: '#000000'
   flutter_test:
     sdk: flutter
+
+flutter_native_splash:
+  image: lib/assets/images/SplashScreen.png
+  color: "#000000"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

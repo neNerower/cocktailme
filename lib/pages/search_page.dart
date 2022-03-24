@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:cocktailme/api/cocktaildb_api.dart';
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:cocktailme/widgets/coctail_info.dart';
@@ -33,6 +32,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
             backgroundColor: Colors.black,
@@ -106,10 +107,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ));
                 } else {
-                  return  Center(child: Padding(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height/10),
-                    child: CircularProgressIndicator(color: Color.fromRGBO(236, 117, 255, 1),),
-                  ));
+                  return  Center(child: CircularProgressIndicator(color: Color.fromRGBO(236, 117, 255, 1),));
                 }
               }),
         ));

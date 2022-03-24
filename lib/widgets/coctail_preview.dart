@@ -1,13 +1,6 @@
-import 'dart:developer';
-import 'dart:ui';
-
-import 'package:cocktailme/hive/hive_interface.dart';
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:cocktailme/widgets/glassmorphic_widget.dart';
-import 'package:cocktailme/widgets/heart_button_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 class CocktailPreview extends StatelessWidget {
   final CocktailModel cocktailModel;

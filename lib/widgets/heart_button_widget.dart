@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
 import '../hive/hive_interface.dart';
 import '../models/cocktail_model.dart';
 

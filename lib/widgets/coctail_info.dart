@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:cocktailme/stringbuilder/stringbuilder.dart';
 import 'package:cocktailme/widgets/glassmorphic_widget.dart';
@@ -7,12 +5,16 @@ import 'package:cocktailme/widgets/heart_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CocktailInfo extends StatelessWidget {
-  CocktailModel cocktailModel;
+class CocktailInfo extends StatefulWidget {
+  final CocktailModel cocktailModel;
 
   CocktailInfo({Key? key, required this.cocktailModel} ) : super(key: key);
 
+  @override
+  State<CocktailInfo> createState() => _CocktailInfoState();
+}
 
+class _CocktailInfoState extends State<CocktailInfo> {
   @override
   Widget build(BuildContext context) {
 
@@ -25,7 +27,7 @@ class CocktailInfo extends StatelessWidget {
         backgroundColor: Colors.black,
         shadowColor: Colors.transparent,
         title: Center(
-            child: Text(cocktailModel.name,
+            child: Text(widget.cocktailModel.name,
                 style: Theme.of(context).textTheme.bodyMedium)),
         leading: IconButton(
           onPressed: () {
@@ -33,7 +35,7 @@ class CocktailInfo extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
-        actions: [StarButton(cocktailModel: cocktailModel)],
+        actions: [StarButton(cocktailModel: widget.cocktailModel)],
       ),
       body: Stack(children: [
         SvgPicture.asset(
@@ -50,7 +52,7 @@ class CocktailInfo extends StatelessWidget {
                 children: [
                   //Cocktail Image
                   GlassmorphicContainer(
-                    child: Image.network(cocktailModel.image!),
+                    child: Image.network(widget.cocktailModel.image!),
                   ),
                   //Spacer
                   SizedBox(
@@ -59,7 +61,7 @@ class CocktailInfo extends StatelessWidget {
                   //Cocktail ingredients
                   GlassmorphicContainer(
                     child: Text(
-                      "Ingredients:\n\n${buildStringFromList(cocktailModel.ingredients)}",
+                      "Ingredients:\n\n${buildStringFromList(widget.cocktailModel.ingredients)}",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
@@ -70,7 +72,7 @@ class CocktailInfo extends StatelessWidget {
                   //Cocktail description
                   GlassmorphicContainer(
                     child: Text(
-                      "Description:\n\n${cocktailModel.instructions}",
+                      "Description:\n\n${widget.cocktailModel.instructions}",
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   )

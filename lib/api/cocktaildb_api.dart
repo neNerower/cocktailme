@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cocktailme/models/cocktail.dart';
 import 'package:dio/dio.dart';
 
@@ -37,9 +39,10 @@ class CocktailDbApi {
   }
 
   CocktailModel _toCocktailModel(Cocktail cocktail) {
-    var cocktailModel = CocktailModel(int.parse(cocktail.idDrink!), 
-      cocktail.strDrink!, cocktail.strAlcoholic!, 
-      cocktail.strGlass!, cocktail.strInstructions!, cocktail.strDrinkThumb ?? cocktail.strImageSource);
+    var cocktailModel = CocktailModel(int.parse(cocktail.idDrink!),
+        cocktail.strDrink!, cocktail.strAlcoholic!,
+        cocktail.strGlass!, cocktail.strInstructions!,
+        cocktail.strDrinkThumb ?? cocktail.strImageSource);
 
     cocktailModel.ingredients = [];
 

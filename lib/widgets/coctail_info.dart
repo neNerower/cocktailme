@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:cocktailme/stringbuilder/stringbuilder.dart';
 import 'package:cocktailme/widgets/glassmorphic_widget.dart';
-import 'package:cocktailme/widgets/star_button_widget.dart';
+import 'package:cocktailme/widgets/heart_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

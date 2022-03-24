@@ -34,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
             backgroundColor: Colors.black,
-            toolbarHeight: MediaQuery.of(context).size.height/10,
+            toolbarHeight: MediaQuery.of(context).size.height / 10,
             leading: IconButton(
                 icon: const Icon(
                   Icons.search,
@@ -45,10 +45,29 @@ class _SearchPageState extends State<SearchPage> {
                     inputText = _controller.value.text;
                   });
                 }),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    inputText = "";
+                    _controller.clear();
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  });
+                },
+                icon: const Icon(
+                  Icons.clear,
+                  color: Color.fromRGBO(128, 128, 128, 1),
+                ),
+              )
+            ],
             title: TextField(
               controller: _controller,
               style: Theme.of(context).textTheme.bodyMedium,
               decoration: InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Color.fromRGBO(63, 207, 253, 1)),
+                  ),
                   hintText: "Search",
                   hintStyle: Theme.of(context).textTheme.bodyMedium),
               onChanged: (text) {
@@ -68,13 +87,14 @@ class _SearchPageState extends State<SearchPage> {
                       itemCount: cocktailsByName.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                            child: CocktailPreview(cocktailModel: cocktailsByName[index]),
+                            child: CocktailPreview(
+                                cocktailModel: cocktailsByName[index]),
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        CocktailInfo(cocktailModel: cocktailsByName[index]),
+                                    builder: (context) => CocktailInfo(
+                                        cocktailModel: cocktailsByName[index]),
                                   ));
                             });
                       });

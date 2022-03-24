@@ -15,28 +15,28 @@ class StarButton extends StatefulWidget {
 }
 
 class _StarButtonState extends State<StarButton> {
-  late Icon star;
+  late Icon icon;
   @override
   Widget build(BuildContext context) {
     if (IHive().isContains(widget.cocktailModel)) {
-      star = const Icon(Icons.star_rounded);
+      icon = const Icon(Icons.favorite_outlined);
       return IconButton(
         onPressed: () {
           IHive().delete(widget.cocktailModel);
           setState(() {});
         },
-        icon: star,
+        icon: icon,
         iconSize: widget.size ?? 24.0,
         color: Colors.white,
       );
     } else {
-      star = const Icon(Icons.star_border_rounded);
+      icon = const Icon(Icons.favorite_border);
       return IconButton(
         onPressed: () {
           IHive().save(widget.cocktailModel);
           setState(() {});
         },
-        icon: star,
+        icon: icon,
         iconSize: widget.size ?? 24.0,
         color: Colors.white,
       );

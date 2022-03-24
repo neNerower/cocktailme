@@ -1,5 +1,6 @@
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -60,30 +61,25 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
        bottomNavigationBar:
+       SnakeNavigationBar.color(
+         backgroundColor: Colors.black,
+         unselectedItemColor: Colors.blueGrey,
+         height: MediaQuery.of(context).size.height/16,
+         snakeShape: SnakeShape.indicator,
+         snakeViewColor: Color.fromRGBO(236, 117, 255, 1),
+         selectedItemColor: Color.fromRGBO(63, 207, 253, 1),
+         currentIndex: _currentIndex,
+         onTap: (index){
+           _onItemTaped(index);
+         },
+         items: [
+           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Minibar'),
+           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+           BottomNavigationBarItem(icon: Icon(Icons.autorenew_rounded), label: 'Random'),
 
-      BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: const [
-          BottomNavigationBarItem(
-            // Minibar
-            icon: Icon(Icons.favorite),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            // Search
-            icon: Icon(Icons.search),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            // Random
-            icon: Icon(Icons.autorenew_rounded),
-            label: '',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: _onItemTaped,
-      ),
+         ],
+       ),
+
     );
   }
 

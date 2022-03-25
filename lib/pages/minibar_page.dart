@@ -75,4 +75,5 @@ class _MinibarPageState extends State<MinibarPage> {
                 )),
               )));
   }
+
 }

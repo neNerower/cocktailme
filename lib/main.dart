@@ -1,7 +1,14 @@
 import 'package:cocktailme/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+import 'models/cocktail_model.dart';
+
+
+Future<void> main() async{
+  await Hive.initFlutter();
+  Hive.registerAdapter(CocktailModelAdapter());
+  Hive.openBox('cocktailsBox');
   runApp(const MyApp());
 }
 

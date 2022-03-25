@@ -1,6 +1,7 @@
-import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'pages/minibar_page.dart';
 import 'pages/random_page.dart';
@@ -21,7 +22,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-
     _pages = [MinibarPage(), SearchPage(),  RandomPage()];
     _currentIndex = 1;
     _pageController = PageController(initialPage: _currentIndex);
@@ -31,13 +31,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    Hive.close();
     super.dispose();
   }
 
   void _onItemTaped(int index) {
     setState(() {
       _currentIndex = index;
-      _pageController.jumpToPage(_currentIndex);
+      _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
     });
   }
 
@@ -59,30 +60,26 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
        bottomNavigationBar:
+       SnakeNavigationBar.color(
+         backgroundColor: Colors.black,
+         unselectedItemColor: Colors.blueGrey,
+         height: MediaQuery.of(context).size.height/16,
+         snakeShape: SnakeShape.indicator,
+         snakeViewColor: Color.fromRGBO(236, 117, 255, 1),
+         selectedItemColor: Color.fromRGBO(63, 207, 253, 1),
+         currentIndex: _currentIndex,
+         onTap: (index){
+           _onItemTaped(index);
+         },
+         items: [
+           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Minibar'),
+           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+           BottomNavigationBarItem(icon: Icon(Icons.autorenew_rounded), label: 'Random'),
 
-      BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: const [
-          BottomNavigationBarItem(
-            // Minibar
-            icon: Icon(Icons.favorite),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            // Search
-            icon: Icon(Icons.search),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            // Random
-            icon: Icon(Icons.autorenew_rounded),
-            label: '',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: _onItemTaped,
-      ),
+         ],
+       ),
+
     );
   }
+
 }

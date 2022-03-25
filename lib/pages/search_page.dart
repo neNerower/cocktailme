@@ -67,13 +67,15 @@ class _SearchPageState extends State<SearchPage> {
             ],
             title: TextField(
               controller: _controller,
+              style: Theme.of(context).textTheme.bodyMedium,
               decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromRGBO(63, 207, 253, 1)),
-                  ),
-                  hintText: "Search",
-                  hintStyle: Theme.of(context).textTheme.bodyMedium),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: Color.fromRGBO(63, 207, 253, 1)),
+                ),
+                hintText: "Search",
+                hintStyle: Theme.of(context).textTheme.bodyMedium,
+              ),
               onChanged: (text) {
                 searchDelay();
               },
@@ -93,16 +95,21 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                             child: CocktailPreview(
-                                cocktailModel: cocktailsByName[index], heartButton: HeartButton(cocktailModel: cocktailsByName[index], size: MediaQuery.of(context).size.height/24,)),
+                                cocktailModel: cocktailsByName[index],
+                                heartButton: HeartButton(
+                                  cocktailModel: cocktailsByName[index],
+                                  size: MediaQuery.of(context).size.height / 24,
+                                )),
                             onTap: () {
                               Navigator.push(
-                                  context,
-                                  SlideTopRoute(
-                                      page: (CocktailInfo(
-                                          cocktailModel:
-                                              cocktailsByName[index])))).then((value){setState(() {
-
-                                              });});
+                                      context,
+                                      SlideTopRoute(
+                                          page: (CocktailInfo(
+                                              cocktailModel:
+                                                  cocktailsByName[index]))))
+                                  .then((value) {
+                                setState(() {});
+                              });
                             });
                       });
                 } else if (snapshot.data == null &&

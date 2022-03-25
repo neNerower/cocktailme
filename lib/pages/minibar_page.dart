@@ -15,12 +15,12 @@ class MinibarPage extends StatefulWidget {
 
 class _MinibarPageState extends State<MinibarPage> {
   List<CocktailModel> favourites = IHive().getAll()!.toList();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         extendBody: true,
-        extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
             toolbarHeight: MediaQuery.of(context).size.height / 10,
@@ -31,37 +31,38 @@ class _MinibarPageState extends State<MinibarPage> {
               ),
             )),
         body: favourites.isNotEmpty
-            ? ListView.builder(
+            ? AnimatedList(
+                key: _listKey,
                 physics: BouncingScrollPhysics(),
-                itemCount: favourites.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                      child: CocktailPreview(
-                        cocktailModel: favourites[index],
-                        button: IconButton(
-                          onPressed: () {
-                            IHive().delete(favourites[index]);
+                initialItemCount: favourites.length,
+                itemBuilder: (context, index, animation) {
+                  return SizeTransition(
+                    sizeFactor: animation,
+                    child: GestureDetector(
+                        child: CocktailPreview(
+                          cocktailModel: favourites[index],
+                          button: IconButton(
+                            onPressed: () {
+                              deleteCocktail(index);
+                            },
+                            icon: const Icon(Icons.clear),
+                            iconSize: MediaQuery.of(context).size.height / 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                                  context,
+                                  SlideTopRoute(
+                                      page: (CocktailInfo(
+                                          cocktailModel: favourites[index]))))
+                              .then((value) {
                             setState(() {
                               favourites = IHive().getAll()!.toList();
                             });
-                          },
-                          icon: const Icon(Icons.clear),
-                          iconSize: MediaQuery.of(context).size.height / 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                                context,
-                                SlideTopRoute(
-                                    page: (CocktailInfo(
-                                        cocktailModel: favourites[index]))))
-                            .then((value) {
-                          setState(() {
-                            favourites = IHive().getAll()!.toList();
                           });
-                        });
-                      });
+                        }),
+                  );
                 })
             : Center(
                 child: Padding(
@@ -74,5 +75,35 @@ class _MinibarPageState extends State<MinibarPage> {
                   ),
                 )),
               )));
+  }
+
+  void deleteCocktail(index) {
+    IHive().delete(favourites[index]);
+    var removedItem = favourites.removeAt(index);
+    _listKey.currentState?.removeItem(
+      index,
+      (context, animation) => SlideTransition(
+        position: CurvedAnimation(
+          curve: Curves.easeInOut,
+          parent: animation,
+        ).drive((Tween<Offset>(
+          begin: const Offset(-1, 0),
+          end: const Offset(0, 0),
+        ))),
+        child: CocktailPreview(
+          cocktailModel: removedItem,
+          button: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.clear),
+            iconSize: MediaQuery.of(context).size.height / 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      duration: Duration(milliseconds: 500)
+    );
+    setState(() {
+      favourites = IHive().getAll()!.toList();
+    });
   }
 }

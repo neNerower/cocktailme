@@ -3,7 +3,6 @@ import 'package:cocktailme/stringbuilder/stringbuilder.dart';
 import 'package:cocktailme/widgets/glassmorphic_widget.dart';
 import 'package:cocktailme/widgets/heart_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '../models/cocktail_model.dart';
 
 class RandomPage extends StatefulWidget {
@@ -24,7 +23,7 @@ class _RandomPageState extends State<RandomPage> {
           return Scaffold(
             extendBody: true,
             extendBodyBehindAppBar: true,
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.transparent,
             appBar: AppBar(
               toolbarHeight: MediaQuery.of(context).size.height / 10,
               backgroundColor: Colors.black,
@@ -40,57 +39,51 @@ class _RandomPageState extends State<RandomPage> {
               ),
               actions: [HeartButton(cocktailModel: randomCocktail)],
             ),
-            body: Stack(children: [
-              SvgPicture.asset(
-                "lib/assets/images/HomeScreen.svg",
-                width: MediaQuery.of(context).size.width,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                children: [
+                  Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        //Cocktail Image
+                        GlassmorphicContainer(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            child: Image.network(randomCocktail.image!),
+                          ),
+                        ),
+                        //Spacer
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 24,
+                        ),
+                        //Cocktail ingredients
+                        GlassmorphicContainer(
+                          child: Text(
+                            "Ingredients:\n\n${buildStringFromList(randomCocktail.ingredients)}",
+                          ),
+                        ),
+                        //Spacer
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 24,
+                        ),
+                        //Cocktail description
+                        GlassmorphicContainer(
+                          child: Text(
+                            "Instructions:\n\n${randomCocktail.instructions}",
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          //Cocktail Image
-                          GlassmorphicContainer(
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              child: Image.network(randomCocktail.image!),
-                            ),
-                          ),
-                          //Spacer
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 24,
-                          ),
-                          //Cocktail ingredients
-                          GlassmorphicContainer(
-                            child: Text(
-                              "Ingredients:\n\n${buildStringFromList(randomCocktail.ingredients)}",
-                            ),
-                          ),
-                          //Spacer
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 24,
-                          ),
-                          //Cocktail description
-                          GlassmorphicContainer(
-                            child: Text(
-                              "Instructions:\n\n${randomCocktail.instructions}",
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ]),
+            ),
           );
         } else {
           return const Center(child: CircularProgressIndicator(color: Color.fromRGBO(236, 117, 255, 1),));

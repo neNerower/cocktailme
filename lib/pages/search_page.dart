@@ -1,8 +1,10 @@
+import 'dart:ui';
 import 'package:cocktailme/api/cocktaildb_api.dart';
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:cocktailme/widgets/coctail_info.dart';
 import 'package:cocktailme/widgets/coctail_preview.dart';
 import 'package:cocktailme/widgets/glassmorphic_widget.dart';
+import 'package:cocktailme/widgets/heart_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -86,15 +88,21 @@ class _SearchPageState extends State<SearchPage> {
                 if (snapshot.hasData) {
                   List<CocktailModel> cocktailsByName = snapshot.data;
                   return ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       itemCount: cocktailsByName.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                             child: CocktailPreview(
-                                cocktailModel: cocktailsByName[index]),
+                                cocktailModel: cocktailsByName[index], heartButton: HeartButton(cocktailModel: cocktailsByName[index], size: MediaQuery.of(context).size.height/24,)),
                             onTap: () {
-                              Navigator.push(context, SlideTopRoute(page: (CocktailInfo(cocktailModel: cocktailsByName[index]))));
+                              Navigator.push(
+                                  context,
+                                  SlideTopRoute(
+                                      page: (CocktailInfo(
+                                          cocktailModel:
+                                              cocktailsByName[index])))).then((value){setState(() {
 
+                                              });});
                             });
                       });
                 } else if (snapshot.data == null &&
@@ -103,11 +111,17 @@ class _SearchPageState extends State<SearchPage> {
                       child: GlassmorphicContainer(
                     child: Text(
                       "Can't find cocktail :( \nTry Something other",
-                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ));
                 } else {
-                  return  Center(child: CircularProgressIndicator(color: Color.fromRGBO(236, 117, 255, 1),));
+                  return Center(
+                      child: Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height / 10),
+                    child: CircularProgressIndicator(
+                      color: Color.fromRGBO(236, 117, 255, 1),
+                    ),
+                  ));
                 }
               }),
         ));

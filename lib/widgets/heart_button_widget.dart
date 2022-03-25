@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import '../hive/hive_interface.dart';
 import '../models/cocktail_model.dart';
 
-class StarButton extends StatefulWidget {
-  const StarButton({Key? key, this.size, required this.cocktailModel})
+class HeartButton extends StatefulWidget {
+  const HeartButton({Key? key, this.size, required this.cocktailModel})
       : super(key: key);
   final double? size;
   final CocktailModel cocktailModel;
 
   @override
-  State<StarButton> createState() => _StarButtonState();
+  State<HeartButton> createState() => _HeartButtonState();
 }
 
-class _StarButtonState extends State<StarButton> {
+class _HeartButtonState extends State<HeartButton> {
   late Icon icon;
   @override
   Widget build(BuildContext context) {

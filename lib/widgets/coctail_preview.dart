@@ -1,12 +1,14 @@
 import 'package:cocktailme/models/cocktail_model.dart';
 import 'package:cocktailme/widgets/glassmorphic_widget.dart';
+import 'package:cocktailme/widgets/heart_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class CocktailPreview extends StatelessWidget {
   final CocktailModel cocktailModel;
-  final IconButton? icon;
+  final IconButton? button;
+  final HeartButton? heartButton;
 
-  const CocktailPreview( {Key? key, required this.cocktailModel, this.icon}) : super(key: key);
+  const CocktailPreview( {Key? key, required this.cocktailModel, this.button, this.heartButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class CocktailPreview extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16),
-                  child: Container(child: icon, width: MediaQuery.of(context).size.height/18,),
+                  child: heartButton??Container(child: button, width: MediaQuery.of(context).size.height/18,),
                 )
               ],
             ),

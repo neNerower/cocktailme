@@ -38,7 +38,7 @@ class _RandomPageState extends State<RandomPage> {
                 },
                 icon: const Icon(Icons.refresh),
               ),
-              actions: [StarButton(cocktailModel: randomCocktail)],
+              actions: [HeartButton(cocktailModel: randomCocktail)],
             ),
             body: Stack(children: [
               SvgPicture.asset(

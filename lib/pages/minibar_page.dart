@@ -38,7 +38,7 @@ class _MinibarPageState extends State<MinibarPage> {
                   return GestureDetector(
                       child: CocktailPreview(
                         cocktailModel: favourites[index],
-                        icon: IconButton(
+                        button: IconButton(
                           onPressed: () {
                             IHive().delete(favourites[index]);
                             setState(() {
@@ -52,19 +52,27 @@ class _MinibarPageState extends State<MinibarPage> {
                       ),
                       onTap: () {
                         Navigator.push(
-                            context,
-                            SlideTopRoute(
-                                page: (CocktailInfo(
-                                    cocktailModel: favourites[index]))));
+                                context,
+                                SlideTopRoute(
+                                    page: (CocktailInfo(
+                                        cocktailModel: favourites[index]))))
+                            .then((value) {
+                          setState(() {
+                            favourites = IHive().getAll()!.toList();
+                          });
+                        });
                       });
                 })
             : Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: GlassmorphicContainer(
-                      child: Center(
-                  child: Text("Your favourite cocktails will be here", textAlign: TextAlign.center,),
-              )),
-                )));
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: GlassmorphicContainer(
+                    child: Center(
+                  child: Text(
+                    "Your favourite cocktails will be here",
+                    textAlign: TextAlign.center,
+                  ),
+                )),
+              )));
   }
 }

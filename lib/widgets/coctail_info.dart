@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CocktailInfo extends StatefulWidget {
   final CocktailModel cocktailModel;
 
+
   CocktailInfo({Key? key, required this.cocktailModel} ) : super(key: key);
 
   @override
@@ -35,7 +36,7 @@ class _CocktailInfoState extends State<CocktailInfo> {
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
-        actions: [StarButton(cocktailModel: widget.cocktailModel)],
+        actions: [HeartButton(cocktailModel: widget.cocktailModel)],
       ),
       body: Stack(children: [
         SvgPicture.asset(

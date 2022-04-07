@@ -15,7 +15,7 @@ class CocktailPreview extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(24.0),
         child: GlassmorphicContainer(
-          height: MediaQuery.of(context).size.height / 8,
+          height: 120,
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             child: Row(

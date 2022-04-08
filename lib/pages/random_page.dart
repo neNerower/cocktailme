@@ -20,6 +20,7 @@ class _RandomPageState extends State<RandomPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.hasData) {
           CocktailModel randomCocktail = snapshot.data;
+
           return Scaffold(
             extendBody: true,
             extendBodyBehindAppBar: true,
@@ -55,7 +56,23 @@ class _RandomPageState extends State<RandomPage> {
                             borderRadius: const BorderRadius.all(
                               Radius.circular(10),
                             ),
-                            child: Image.network(randomCocktail.image!),
+                            child: Container(
+                              height: MediaQuery.of(context).size.width-24,
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.network(randomCocktail.image!, fit: BoxFit.fill,loadingBuilder: (BuildContext context, Widget child,
+                                  ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color.fromRGBO(236, 117, 255, 1),
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },),
+                            ),
                           ),
                         ),
                         //Spacer

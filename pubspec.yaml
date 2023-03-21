@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   freezed_annotation: ^1.1.0
   json_annotation: ^4.4.0
-  dio: ^4.0.4
+  dio: ^5.0.3
   google_fonts: ^2.3.1
   flutter_svg: ^1.0.3
   google_nav_bar: ^5.0.5
